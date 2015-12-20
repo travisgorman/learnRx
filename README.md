@@ -3,15 +3,40 @@ This repository is for my notes and solutions as I work through the [*learnRx*](
 
 ## Exercise 1: 
 ### Print all names in array to console
-`names` is an array with 5 names in it.  
-`printWithForLoop()` takes an array, and loops over it and prints every item to the console. 
+
+```js
+function printNames() {
+  var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"];
+
+  for(var i = 0; i < names.length; i++) {
+    console.log(names[i]);
+  }
+}
+```
+`printNames()` does one very specific thing only. It prints the items in the `names` array declared in its own function scope. If you need the names 
+
+>
+Ben  
+Jafar  
+Matt  
+Priya  
+Brian  
+
+printed out to the console in exactly that order, `printNames()` is the function to call.  
+
+I'd like to take this idea, and make a more useful function. 
+
+#### printWithForLoop()
+`printWithForLoop()` does the exact same thing, except instead of declaring the array it loops and print, it takes any array passed in as an argument, and loops it, printing each item to the console. 
+This is for just illustrative purposes, playing with the idea of array traversal, and assumes the array is in a scope where it can be accessed
 
 ```js
 var names = ["Ben", "Jafar", "Matt", "Priya", "Brian"];
+var otherNames = ["Travis", "Desdemona", "Des", "The Skoog", "Doogin" ]
 
-function printWithForLoop(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      console.log(arr[i]);
+function printWithForLoop(array) {
+    for (var i = 0; i < array.length; i++) {
+      console.log(array[i]);
     };
 }
 ```
@@ -26,6 +51,18 @@ Jafar
 Matt  
 Priya  
 Brian  
+
+Pass `otherNames` into `printWithForLoop()` 
+
+```js
+printWithForLoop(otherNames);
+```
+>
+Travis
+Desdemona
+Des
+The Skoog
+Doogin
 
 ___
 ## Exercise 2
