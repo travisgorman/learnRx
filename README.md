@@ -26,7 +26,7 @@ printed out to the console in exactly that order, `printNames()` is the function
 
 I'd like to take this idea, and make a more useful function. 
 
-#### printWithForLoop()
+#### `printWithForLoop()`
 `printWithForLoop()` does the exact same thing, except instead of declaring the array it loops and print, it takes any array passed in as an argument, and loops it, printing each item to the console. 
 This is for just illustrative purposes, playing with the idea of array traversal, and assumes the array is in a scope where it can be accessed
 
