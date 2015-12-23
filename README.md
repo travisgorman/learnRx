@@ -982,6 +982,86 @@ Nice. And as expected, this returns a one dimensional array with just what we wa
 ```
 
 ___
+## Exercise 15
+### Use forEach to find the largest box art
+Here, I'm using `forEach()` to show how you might go through a collection, comparing one item to another.
+
+```js
+function bigBox() {
+  var boxarts = [
+      { width: 200, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture200.jpg" },
+      { width: 150, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture150.jpg" },
+      { width: 300, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture300.jpg" },
+      { width: 425, height:150, url:"http://cdn-0.nflximg.com/images/2891/Fracture425.jpg" }
+    ],
+    currentSize,
+    maxSize = -1,
+    largestBoxart;
+
+    boxarts.forEach( boxart => {
+      currentSize = boxart.width * boxart.height;
+      if (currentSize > maxSize) {
+        largestBoxart = boxart;
+        maxSize = currentSize;
+      } 
+    });
+    return largestBoxart;
+  }
+```
+
+> {
+  width: 425, 
+  height: 150, 
+  url: "http://cdn-0.nflximg.com/images/2891/Fracture425.jpg"
+}
+
+#### Break it Down
+
+* Declare Variables
+  - `boxarts` - an array of box art items of varying sizes
+  - `currentSize` - an undefined variable
+    + holds the current item in the array, comparing to `maxSize`
+  - `maxSize` - a number, initialized to -1
+    + holds the previous item, until replaced by larger value
+  - `largestBoxart` - an undefined variable
+    + will hold the `boxart` object of the current largest 
+
+```js
+    boxarts.forEach( boxart => {
+      currentSize = boxart.width * boxart.height;
+      if (currentSize > maxSize) {
+        largestBoxart = boxart;
+        maxSize = currentSize;
+      } 
+    });
+    return largestBoxart;
+```
+
+* `forEach()` over `boxarts`, taking each `boxart` item and
+  - multiply width times height and assign value to `currentSize`
+  - also assign that value to `maxSize` 
+  - assign the current `boxart` object to `largestBoxart`
+  - Contine this process for each item, effectively replacing all values whenever a larger item is found
+* Return `largestBoxart` as it holds the largest item in the collection
+
+___
+
+
+
+___
+
+
+
+___
+
+
+
+___
+
+
+
+___
+
 
 
 ___
