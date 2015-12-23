@@ -1317,7 +1317,8 @@ I see this returns
 
 >"Jim"
 
-This is because it points to the `person` prototype I just created, which has the name "Jim".
+This is because it points to the `person` prototype I just created, which has the name "Jim".  
+
 One more time, just for fun...
 ```js
 (function() {
