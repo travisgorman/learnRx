@@ -1202,7 +1202,7 @@ and returns an accumulated map
 ```
 
 Use an empty map as the initial value instead of the first item in the list.
-`Object.create()` makes a fast copy of the accumulatedMap by creating a new object and setting the eacumulatedMap to be the new object's prototype.   
+Object.create() makes a fast copy of the accumulatedMap by creating a new object and setting the eacumulatedMap to be the new object's prototype.   
 
 >**"empty map"** = {}
 
@@ -1210,7 +1210,7 @@ Initially the new object is empty and has no members of its own except a pointer
 
 If we set a member value on the new object, it is stored directly on that object, leaving the prototype unchanged.  
 
-`Object.create()` is perfect for functional programming because it makes creating a new object with a different member value almost as cheap as changing the member on the original object. 
+Object.create() is perfect for functional programming because it makes creating a new object with a different member value almost as cheap as changing the member on the original object. 
 
 ```js
 function() {
@@ -1267,6 +1267,58 @@ return videos.reduce( (accumulatedMap, video)  => {
 ```js
   ,{} );
 ```
+### Notes
+This would actually work. Without making a copy using `Object.create()`
+
+```js
+  return videos.reduce( (accumulatedMap, video)  => {
+    accumulatedMap[ video.id] = video.title;
+    return accumulatedMap;
+    }, {} 
+  );
+}
+)();
+
+```
+You could still get an array containing a map with video `id` and `title` value pairs.  
+
+>```js
+  [
+      {
+        675465: "Fracture"
+        65432445: "The Chamber"
+        70111470: "Die Hard"
+        654356453: "Bad Boys"
+      }
+  ]
+```
+
+But it is important, inside of our functions, to **never changing values**
+Never change a variable, ever. In this version above, we are changing a value. Allowing mutability creates a lot of complexity inside programs.   
+
+By using prototypal inheritance, you can create a new object, that looks like a clone, but is actually a new object. 
+
+```js
+person = {name: "Jim"};
+```
+> Object {name: "Jim"}
+
+```js
+anotherPerson = Object.create(person);
+```
+> Object {}
+
+This creates an empty object. There are no properties.
+However, if I call for the name property on `anotherPerson` 
+```js
+anotherPerson.name;
+```
+I see this returns 
+
+>"Jim"
+
+This is because it points to the `person` prototype I just created, which has the name "Jim".
+
 
 ___
 
