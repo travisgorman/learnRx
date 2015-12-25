@@ -1544,24 +1544,6 @@ function() {
   - Push thing from array1 and thing from array2 into `videoIdAndBookmarkIdPairs`
 * Return `videoIdAndBookmarkIdPairs`
 
->```js
-[
-    {
-      bookmarkId: 470
-      videoId: 70111470
-    },
-    {
-      bookmarkId: 453
-      videoId: 654356453
-    },
-    {
-      bookmarkId: 445
-      videoId: 65432445
-    }
-]
-
-```<
-
 ___
 
 ## Implement Zip
