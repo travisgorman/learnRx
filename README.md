@@ -1310,6 +1310,7 @@ anotherPerson = Object.create(person);
 
 This creates an empty object. There are no properties.
 However, if I call for the name property on `anotherPerson` 
+
 ```js
 anotherPerson.name;
 ```
@@ -1320,6 +1321,7 @@ I see this returns
 This is because it points to the `person` prototype I just created, which has the name "Jim".  
 
 One more time, just for fun...
+
 ```js
 (function() {
   var videos = [
@@ -1352,7 +1354,350 @@ One more time, just for fun...
 ```
 
 ___
+## Exercise 20
+### Retrieve the id, title, and smallest box art url for every video with `reduce()`
+This is a variation of the problem we solved earlier, where we retrieved the url of the boxart with a width of 150px.  
+This time we'll use `reduce()` instead of `filter()` to retrieve the smallest box art in the boxarts array.  
+
+Take this 3D array, and return an array with the following
+
+>```js
+  [
+       {id, title, url },
+       {id, title, url },
+       {id, title, url },
+       {id, title, url }
+   ];
+```
+
+New Releases [{},{}]
+    "Die Hard"
+        boxarts
+    "Bad Boys"
+        boxarts
+Thrillers [{},{}]
+    "The Chamber"
+        boxarts
+    "Fracture"
+        boxarts
+
+First, go from 3D to 2D  to 1D with `concatMap()`
+
+>[ { "New Releases" }, { "Thrillers" } ];  
+>[ {"Die Hard"},{"Bad Boys"},{"The Chamber"},{"Fracture"} ]
 
 
+
+
+
+#### Pseudocode
+1. `concatMap()` over `movieLists` taking `movidLists` and
+1. `concatMap()` over `videos` taking `boxarts` and 
+1. `reduce()` the `boxarts` array returning smallest boxart `url`
+1. `map()` to project `videos.id`, `videos.title`, and `boxart.url`
+
+
+```js
+function smallBox() {
+  var movieLists = [
+    {
+      name: "New Releases",
+      videos: [
+        {
+          "id": 70111470,
+          "title": "Die Hard",
+          "boxarts": [
+            { width: 150, height:200, url:"http://cdn-0.nflximg.com/images/2891/DieHard150.jpg" },
+            { width: 200, height:200, url:"http://cdn-0.nflximg.com/images/2891/DieHard200.jpg" }
+          ],
+          "url": "http://api.netflix.com/catalog/titles/movies/70111470",
+          "rating": 4.0,
+          "bookmark": []
+        },
+        {
+          "id": 654356453,
+          "title": "Bad Boys",
+          "boxarts": [
+            { width: 200, height:200, url:"http://cdn-0.nflximg.com/images/2891/BadBoys200.jpg" },
+            { width: 140, height:200, url:"http://cdn-0.nflximg.com/images/2891/BadBoys140.jpg" }
+
+          ],
+          "url": "http://api.netflix.com/catalog/titles/movies/70111470",
+          "rating": 5.0,
+          "bookmark": [{ id:432534, time:65876586 }]
+        }
+      ]
+    },
+    {
+      name: "Thrillers",
+      videos: [
+        {
+          "id": 65432445,
+          "title": "The Chamber",
+          "boxarts": [
+            { width: 130, height:200, url:"http://cdn-0.nflximg.com/images/2891/TheChamber130.jpg" },
+            { width: 200, height:200, url:"http://cdn-0.nflximg.com/images/2891/TheChamber200.jpg" }
+          ],
+          "url": "http://api.netflix.com/catalog/titles/movies/70111470",
+          "rating": 4.0,
+          "bookmark": []
+        },
+        {
+          "id": 675465,
+          "title": "Fracture",
+          "boxarts": [
+            { width: 200, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture200.jpg" },
+            { width: 120, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture120.jpg" },
+            { width: 300, height:200, url:"http://cdn-0.nflximg.com/images/2891/Fracture300.jpg" }
+          ],
+          "url": "http://api.netflix.com/catalog/titles/movies/70111470",
+          "rating": 5.0,
+          "bookmark": [{ id:432534, time:65876586 }]
+        }
+      ]
+    }
+  ];
+
+
+return movieLists.
+  concatMap( movieList => 
+    movieList.videos.concatMap( video =>
+      video.boxarts.
+        reduce(( acc, curr) => 
+          acc.width * acc.height < curr.width * curr.height ? acc : curr)
+        .map( boxart => 
+            ({
+              id: video.id,
+              title: video.title, 
+              boxart: boxart.url
+            })
+      )))
+}
+
+```
 
 ___
+# Zipping Arrays
+Sometimes we need to combine two arrays by progressively taking an item from each and combining the pair. If you visualize a zipper, where each side is an array, and each tooth is an item, you'll have a good idea of how the zip operation works.  
+## Exercise 21: 
+### Combine videos and bookmarks by index with For Loops
+Use a for loop to traverse the videos and bookmarks array at the same time. For each video and bookmark pair, create a {videoId, bookmarkId} pair and add it to the videoIdAndBookmarkIdPairs array.
+
+
+```js
+function() {
+  var videos = [
+      {
+        "id": 70111470,
+        "title": "Die Hard",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 4.0,
+      },
+      {
+        "id": 654356453,
+        "title": "Bad Boys",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 5.0,
+      },
+      {
+        "id": 65432445,
+        "title": "The Chamber",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 4.0,
+      },
+      {
+        "id": 675465,
+        "title": "Fracture",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 5.0,
+      }
+    ],
+    bookmarks = [
+      {id: 470, time: 23432},
+      {id: 453, time: 234324},
+      {id: 445, time: 987834}
+    ],
+  counter,
+  videoIdAndBookmarkIdPairs = [];
+
+  for( counter = 0; counter < Math.min( videos.length, bookmarks.length); counter++){
+    videoIdAndBookmarkIdPairs.push(
+      {
+        videoId: videos[ counter].id, 
+        bookmarkId: bookmarks[ counter].id
+      })
+  }
+  return videoIdAndBookmarkIdPairs;
+}
+    
+```
+
+* Declare new variable, `videoIdAndBookmarkIdPairs`, an empty array
+  - this is where the zipped objects go
+* Loop over the videos array
+  - set the loop boundry to the length of the shorter array 
+    + `counter < Math.min(array1.length, array2.length)`
+  - Push thing from array1 and thing from array2 into `videoIdAndBookmarkIdPairs`
+* Return `videoIdAndBookmarkIdPairs`
+
+>```js
+[
+    {
+      bookmarkId: 470
+      videoId: 70111470
+    },
+    {
+      bookmarkId: 453
+      videoId: 654356453
+    },
+    {
+      bookmarkId: 445
+      videoId: 65432445
+    }
+]
+
+```<
+
+___
+
+## Implement Zip
+
+Let's add a static `zip()` function to the Array type. The `zip()` function accepts a combiner function, traverses each array at the same time, and calls the combiner function on the current item on the left-hand-side and right-hand-side. The `zip()` function requires an item from each array in order to call the combiner function, therefore the array returned by `zip()` will only be as large as the smallest input array.
+
+```js
+Array.zip = function(left, right, combinerFunction){
+  var counter, results = [];
+  
+  for( counter = 0; counter < Math.min( left.length, right.length ); counter++){
+    results.push( combinerFunction( left[ counter], right[ counter] ));
+  }
+  return results;
+};
+```
+
+The combiner function takes a left array, and a right array and the two are always coordinated by the counter
+
+___
+## Implement Zip
+Let's add a static `zip()` function to the Array type. The `zip()` function accepts a combiner function, traverses each array at the same time, and calls the combiner function on the current item on the left-hand-side and right-hand-side. The `zip()` function requires an item from each array in order to call the combiner function, therefore the array returned by `zip()` will only be as large as the smallest input array.
+
+```js
+Array.zip = function(left, right, combinerFunction){
+  var counter, results = [];
+  
+  for( counter = 0; counter < Math.min( left.length, right.length ); counter++){
+    results.push( combinerFunction( left[ counter], right[ counter] ));
+  }
+  return results;
+};
+```
+The combiner function takes a left array, and a right array and the two are always coordinated by the counter
+
+___
+## Exercise 23 
+### Combine videos and bookmarks by index with `zip()`
+Let's repeat exercise 21, but this time lets use your new zip() function. For each video and bookmark pair, create a {videoId, bookmarkId} pair.
+
+```js
+function() {
+  var videos = [
+      {
+        "id": 70111470,
+        "title": "Die Hard",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/DieHard.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 4.0,
+      },
+      {
+        "id": 654356453,
+        "title": "Bad Boys",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/BadBoys.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 5.0,
+      },
+      {
+        "id": 65432445,
+        "title": "The Chamber",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/TheChamber.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 4.0,
+      },
+      {
+        "id": 675465,
+        "title": "Fracture",
+        "boxart": "http://cdn-0.nflximg.com/images/2891/Fracture.jpg",
+        "uri": "http://api.netflix.com/catalog/titles/movies/70111470",
+        "rating": 5.0,
+      }
+    ],
+    bookmarks = [
+      {id: 470, time: 23432},
+      {id: 453, time: 234324},
+      {id: 445, time: 987834}
+    ];
+ 
+    return Array.zip( videos, bookmarks, ( video, bookmark ) =>
+      ({ videoId : video.id, bookmarkId : bookmark.id }));
+}
+```
+### Break it Down
+I've got two arrays that need to be zipped up. 3 of the 4 videos have corresponding bookmarks. 
+Rather than chaining `zip()`, we tell it which two arrays to work with, giving it a left and a right array. 
+* Return Array.zip and pass in the left array, right array, and combiner function
+  - The left array is videos
+  - The right array is bookmarks
+  - The combiner is an anonymous function that returns an object with the desired item from each array
+
+___
+## Exercise 24: 
+### Retrieve each video's id, title, middle moment time, and smallest box art url.
+This is a variation of the problem we solved earlier. This time each video has an interesting moments collection, each representing a time during which a screenshot is interesting or representative of the title as a whole. Notice that both the boxarts and interestingMoments arrays are located at the same depth in the tree. Retrieve the time of the middle interesting moment and the smallest box art url simultaneously with zip().  
+
+Return an {id, title, time, url} object for each video.
+
+videos.id
+videos.title
+videos.boxarts.url
+videos.interestingMoments
+
+
+* `concatMap()` over `movieLists` (movieList)
+* `concatMap()` over `videos` (video)
+* `zip()` boxarts and interestingMoments arrays 
+  - `reduce()` over `boxarts` (boxart) foer smallest
+  - `filter()` over `interestingMoments` (type === "Middle")
+  - combiner function that puts all the pieces together
+
+
+```js
+ return movieLists.
+   concatMap( movieList => 
+     movieList.videos.
+       concatMap( video => 
+
+         Array.zip( 
+           video.boxarts.reduce( ( acc, curr) =>
+             (acc.width*acc.height < curr.width*curr.height) ? acc : curr ), 
+               video.interestingMoments.filter( interestingMoment =>
+                 interestingMoment.type === "Middle" ), 
+                   ( boxart, interestingMoment ) => 
+                      ({id: video.id, title: video.title, time: interestingMoment.time, url: boxart.url })
+        )
+    )
+  );
+
+```
+___
+
+
+
+
+
+
+
+
+
